@@ -1,13 +1,14 @@
 {
-  "name": "test-webpack",
+  "name": "color-changer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Color scheme managing application",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "yarn run webpack",
+    "prod": "yarn run webpack -p",
+    "watch": "yarn run webpack --watch"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Marc Lübke",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -33,7 +34,6 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "jquery": "^3.4.1",
-    "lodash": "^4.17.15"
+    "jquery": "^3.4.1"
   }
 }
