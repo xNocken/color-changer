@@ -33,8 +33,15 @@ CREATE TABLE `themes` (
   `r` varchar(45) DEFAULT NULL,
   `g` varchar(45) DEFAULT NULL,
   `b` varchar(45) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL
+  `name` varchar(45) DEFAULT NULL,
+  `user` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `users` (
+  `user` varchar(16) NOT NULL,
+  `pw` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Indizes der exportierten Tabellen
@@ -45,6 +52,10 @@ CREATE TABLE `themes` (
 --
 ALTER TABLE `themes`
   ADD PRIMARY KEY (`id`);
+COMMIT;
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

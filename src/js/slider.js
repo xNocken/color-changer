@@ -52,7 +52,31 @@ const editTheme = (id) => {
   $('#text').val(themes[index].name);
 };
 
-const saveTheme = (r, g, b, name, mode, id = themes[0] ? themes[themes.length - 1].id + 1 : 0) => {
+const createElement = (newId, r, g, b, name) => {
+  $('#themes').append(`<div class="items" data-id-div="${newId}"></div>`);
+  const newDiv = $(`[data-id-div="${newId}"`);
+
+  newDiv.append(`<div class="theme-select" data-id="${newId}">${name} </div>`);
+  newDiv.append(`<div class="theme-select" data-delete-id="${newId}">Delete </div>`);
+  newDiv.append(`<div class="theme-select" data-edit-id="${newId}">Edit</div>`);
+
+  const newElem = $(`[data-id="${newId}"`);
+  const newDeleteElem = $(`[data-delete-id="${newId}"`);
+  const newEditElem = $(`[data-edit-id="${newId}"`);
+
+  newDeleteElem.on('click', event => deleteTheme($(event.target).data('delete-id')));
+  newEditElem.on('click', event => editTheme($(event.target).data('edit-id')));
+  newElem.on('click', event => setTheme($(event.target).data('id')));
+  themes.push({
+    r,
+    g,
+    b,
+    name,
+    id: newId,
+  });
+};
+
+const saveTheme = (r, g, b, name, mode, id = null) => {
   if (editActive) {
     const newId = themes[editIndex].id;
 
@@ -77,34 +101,36 @@ const saveTheme = (r, g, b, name, mode, id = themes[0] ? themes[themes.length - 
 
     editActive = false;
   } else if (name) {
-    $('#themes').append(`<div class="items" data-id-div="${id}"></div>`);
-    const newDiv = $(`[data-id-div="${id}"`);
-
-    newDiv.append(`<div class="theme-select" data-id="${id}">${name} </div>`);
-    newDiv.append(`<div class="theme-select" data-delete-id="${id}">Delete </div>`);
-    newDiv.append(`<div class="theme-select" data-edit-id="${id}">Edit</div>`);
-
-    const newElem = $(`[data-id="${id}"`);
-    const newDeleteElem = $(`[data-delete-id="${id}"`);
-    const newEditElem = $(`[data-edit-id="${id}"`);
-
-    newDeleteElem.on('click', event => deleteTheme($(event.target).data('delete-id')));
-    newEditElem.on('click', event => editTheme($(event.target).data('edit-id')));
-    newElem.on('click', event => setTheme($(event.target).data('id')));
-    themes.push({
-      r,
-      g,
-      b,
-      name,
-      id,
-    });
-
+    let newId = id;
     if (!mode) {
-      $.get('/src/php/saveTheme.php', { json: JSON.stringify(themes), mode: 'save' }).done((response) => {
+      themes.push({
+        r,
+        g,
+        b,
+        name,
+        id: null,
+      });
+
+      $.get('/src/php/saveTheme.php', {
+        json: JSON.stringify({
+          r,
+          g,
+          b,
+          name,
+        }),
+        mode: 'save',
+      }).done((response) => {
         if (response) {
-          message(response);
+          const res = JSON.parse(response);
+
+          message(res.msg);
+          newId = res.id;
+
+          createElement(newId, r, g, b, name);
         }
       });
+    } else {
+      createElement(newId, r, g, b, name);
     }
   } else {
     message('Name darf nicht leer sein');
@@ -113,6 +139,10 @@ const saveTheme = (r, g, b, name, mode, id = themes[0] ? themes[themes.length - 
 
 const loadThemes = () => {
   $.get('/src/php/saveTheme.php', { mode: 'get' }).done((response) => {
+    if (response === '401') {
+      window.location.href = '/login.html';
+    }
+
     const params = JSON.parse(response);
     if (params !== 'no results') {
       params.forEach((elem) => {
@@ -123,14 +153,16 @@ const loadThemes = () => {
 };
 
 export default () => {
-  const $r = $('#r');
-  const $g = $('#g');
-  const $b = $('#b');
-  const $text = $('#text');
+  if (document.title === 'teest') {
+    const $r = $('#r');
+    const $g = $('#g');
+    const $b = $('#b');
+    const $text = $('#text');
 
-  loadThemes();
-  changeColor($r.val(), $g.val(), $b.val());
+    loadThemes();
+    changeColor($r.val(), $g.val(), $b.val());
 
-  $('#r, #g, #b').on('change', () => changeColor($r.val(), $g.val(), $b.val()));
-  $('#button').on('click', () => saveTheme($r.val(), $g.val(), $b.val(), $text.val()));
+    $('#r, #g, #b').on('change', () => changeColor($r.val(), $g.val(), $b.val()));
+    $('#button').on('click', () => saveTheme($r.val(), $g.val(), $b.val(), $text.val()));
+  }
 };

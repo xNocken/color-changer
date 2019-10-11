@@ -4,90 +4,25 @@ body {
   align-items: center;
   transition: background-color 0.3s ease;
   text-align: center;
+}
 
-  .theme-select {
-    cursor: pointer;
-    display: inline;
+.theme-select {
+  cursor: pointer;
+  display: inline;
+  margin-left: 5px;
+  margin-right: 5px;
 
+  &[data-delete-id] {
+    color: rgb(247, 99, 99);
+  }
 
-    &[data-delete-id] {
-      color: rgb(247, 99, 99);
-    }
+  &[data-edit-id] {
+    color: rgb(24, 207, 55);
+  }
 
-    &[data-edit-id] {
-      color: rgb(24, 207, 55);
-    }
-
-    &:hover {
-      color: white;
-    }
+  &:hover {
+    color: white;
   }
 }
 
-.range-slider {
-    margin-top: 30vh;
-
-}
-
-.rs-range {
-    margin-top: 29px;
-    margin-bottom: 29px;
-    width: 100%;
-    border: #010101 solid 0.5px;
-    -webkit-appearance: none;
-
-    &:focus {
-        outline: none;
-    }
-
-    &::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 1px;
-        cursor: pointer;
-        box-shadow: none;
-        background: #ffffff;
-        border-radius: 0px;
-        border: 0px solid #010101;
-    }
-
-    &::-moz-range-track {
-        width: 100%;
-        height: 1px;
-        cursor: pointer;
-        box-shadow: none;
-        background: #ffffff;
-        border-radius: 0px;
-        border: 0px solid #010101;
-    }
-
-    &::-webkit-slider-thumb {
-        box-shadow: none;
-        border: 0px solid #ffffff;
-        box-shadow: 0px 10px 10px rgba(0,0,0,0.25);
-        height: 21px;
-        width: 11px;
-        border-radius: 22px;
-        background: rgba(255,255,255,1);
-        cursor: pointer;
-        -webkit-appearance: none;
-        margin-top: -10px;
-    }
-
-  &::-moz-range-thumb {
-        box-shadow: none;
-        border: 0px solid #ffffff;
-        box-shadow: 0px 10px 10px rgba(0,0,0,0.25);
-        height: 21px;
-        width: 11px;
-        border-radius: 22px;
-        background: rgba(255,255,255,1);
-        cursor: pointer;
-        -webkit-appearance: none;
-        margin-top: -10px;
-  }
-
-  &::-moz-focus-outer {
-    border: 0;
-  }
-}
 

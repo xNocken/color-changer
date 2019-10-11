@@ -1,12 +1,15 @@
 import $ from 'jquery';
-import slider from './js/slider';
+
+import login from './js/login';
 import message from './js/alert';
+import slider from './js/slider';
 
 import './scss/main.scss';
 
 global.$ = $;
 
 $(() => {
-  slider();
+  login();
   message('Hallo');
+  slider();
 });
