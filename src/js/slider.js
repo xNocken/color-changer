@@ -54,15 +54,17 @@ const editTheme = (id) => {
 
 const saveTheme = (r, g, b, name, mode, id = themes[0] ? themes[themes.length - 1].id + 1 : 0) => {
   if (editActive) {
-    const newElem = $(`[data-id="${id}"`);
-    message(id);
+    const newId = themes[editIndex].id;
+
+    const newElem = $(`[data-id="${newId}"`);
+    message(newId);
 
     themes[editIndex] = {
       name,
       r,
       g,
       b,
-      id,
+      id: newId,
     };
 
     newElem.text(name);
@@ -75,9 +77,12 @@ const saveTheme = (r, g, b, name, mode, id = themes[0] ? themes[themes.length - 
 
     editActive = false;
   } else if (name) {
-    $('#themes').append(`<div class="theme-select" data-id="${id}">${name}</div>`);
-    $('#themes').append(`<div class="theme-select" data-delete-id="${id}">Delete</div>`);
-    $('#themes').append(`<div class="theme-select" data-edit-id="${id}">Edit</div>`);
+    $('#themes').append(`<div class="items" data-id-div="${id}"></div>`);
+    const newDiv = $(`[data-id-div="${id}"`);
+
+    newDiv.append(`<div class="theme-select" data-id="${id}">${name} </div>`);
+    newDiv.append(`<div class="theme-select" data-delete-id="${id}">Delete </div>`);
+    newDiv.append(`<div class="theme-select" data-edit-id="${id}">Edit</div>`);
 
     const newElem = $(`[data-id="${id}"`);
     const newDeleteElem = $(`[data-delete-id="${id}"`);
