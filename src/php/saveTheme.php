@@ -10,17 +10,12 @@ $json = $_REQUEST['json'];
 $id = $_REQUEST['id'];
 $user = $_SESSION["user"];
 
-if (!isset($_SESSION["user"])) {
-    die('401');
-}
-
-
 $themes = json_decode($json);
 
 if ($mode === 'save') {
 
     // TODO validieren
-    $sql = "INSERT INTO `colors`.`themes` (`r`, `g`, `b`, `name`, `user`) VALUES ('". $conn->real_escape_string($themes->r) ."', '". $conn->real_escape_string($themes->g) ."', '". $conn->real_escape_string($themes->b) ."', '". $conn->real_escape_string($themes->name) ."', '". $conn->real_escape_string($user). "');";
+    $sql = "INSERT INTO `themes` (`r`, `g`, `b`, `name`, `user`) VALUES ('". $conn->real_escape_string($themes->r) ."', '". $conn->real_escape_string($themes->g) ."', '". $conn->real_escape_string($themes->b) ."', '". $conn->real_escape_string($themes->name) ."', '". $conn->real_escape_string($user). "');";
     if ($conn->query($sql) === false) {
         echo $conn->error. "! ";
     }
@@ -31,7 +26,7 @@ if ($mode === 'save') {
 
 
 if ($mode === 'get') {
-    $sql = "select id, r, g, b, name from `colors`.`themes` WHERE user = '$user'";
+    $sql = "select id, r, g, b, name from `themes` WHERE user = '$user'";
 
     $result = $conn->query($sql);
 
@@ -48,14 +43,14 @@ if ($mode === 'get') {
 }
 
 if ($mode === 'delete') {
-    $sql = "DELETE FROM `colors`.`themes` WHERE ID = $id";
+    $sql = "DELETE FROM `themes` WHERE ID = $id";
     if ($conn->query($sql) === false) {
         echo $conn->error. "! ";
     }
 }
 
 if ($mode === 'update') {
-    $sql = 'UPDATE `colors`.`themes` SET'.  " id = '". $conn->real_escape_string($themes->id) ."', r = '". $conn->real_escape_string($themes->r) ."', g= '". $conn->real_escape_string($themes->g) ."', b= '". $conn->real_escape_string($themes->b) ."',name= '". $conn->real_escape_string($themes->name) ."' WHERE id = ". $themes->id .";";
+    $sql = 'UPDATE `themes` SET'.  " id = '". $conn->real_escape_string($themes->id) ."', r = '". $conn->real_escape_string($themes->r) ."', g= '". $conn->real_escape_string($themes->g) ."', b= '". $conn->real_escape_string($themes->b) ."',name= '". $conn->real_escape_string($themes->name) ."' WHERE id = ". $themes->id .";";
     if ($conn->query($sql) === false) {
         echo $conn->error. "! ";
     }

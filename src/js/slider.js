@@ -139,10 +139,6 @@ const saveTheme = (r, g, b, name, mode, id = null) => {
 
 const loadThemes = () => {
   $.get('/src/php/saveTheme.php', { mode: 'get' }).done((response) => {
-    if (response === '401') {
-      window.location.href = '/login.html';
-    }
-
     const params = JSON.parse(response);
     if (params !== 'no results') {
       params.forEach((elem) => {
