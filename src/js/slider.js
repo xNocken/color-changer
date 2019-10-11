@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 import message from './alert';
 import { changeColor } from './renderer';
 

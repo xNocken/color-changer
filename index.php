@@ -15,7 +15,6 @@ if (isset($_SESSION['user'])) {
   <body>
     <div class="center">
       <?php if (!$user) {
-        include('register.html');
         include('login.html');
       } else { ?>
 

@@ -1,38 +1,31 @@
 import $ from 'jquery';
+
 import message from './alert';
 
 export default () => {
   $('#login-form').on('submit', (event) => {
+    const { target } = event;
+    const action = target[2].checked ? 'register' : 'login';
+
     event.preventDefault();
-    const user = event.target[0].value;
-    const pw = event.target[1].value;
 
-    $.get('/src/php/login.php', { user, pw }).done((response) => {
-      const msg = JSON.parse(response);
-      message(msg.msg);
+    $.ajax({
+      url: `/src/php/${action}.php`,
+      method: 'POST',
+      data: {
+        user: target[0].value,
+        pw: target[1].value,
+      },
+    }).done((response) => {
+      const data = JSON.parse(response);
 
-      setTimeout(() => {
-        if (msg.type === 'success') {
+      message(data.msg);
+
+      if (data.type === 'success') {
+        setTimeout(() => {
           window.location.href = '/';
-        }
-      }, 1000);
-    });
-  });
-
-  $('#register-form').on('submit', (event) => {
-    event.preventDefault();
-    const user = event.target[0].value;
-    const pw = event.target[1].value;
-
-    $.get('/src/php/register.php', { user, pw }).done((response) => {
-      const msg = JSON.parse(response);
-      message(msg.msg);
-
-      setTimeout(() => {
-        if (msg.type === 'success') {
-          window.location.href = '/';
-        }
-      }, 1000);
+        }, 1000);
+      }
     });
   });
 };
