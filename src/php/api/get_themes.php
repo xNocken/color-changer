@@ -10,12 +10,13 @@ if ($result && $result->num_rows > 0) {
         $data[] = $row;
     }
 
-    echo json_encode($data);
 } else {
-    echo json_encode([
+    $data = [
         'type' => 'error',
         'msg'  => 'No results',
-    ]);
+    ];
 }
+
+echo json_encode($data);
 
 $conn->close();

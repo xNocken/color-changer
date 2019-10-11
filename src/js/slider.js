@@ -1,18 +1,11 @@
 import $ from 'jquery';
 import message from './alert';
+import { changeColor } from './renderer';
 
 const themes = [];
 
 let editActive = false;
 let editIndex = 0;
-
-const changeColor = (rgb) => {
-  const { r, g, b } = rgb;
-
-  $('body').css({
-    backgroundColor: `rgb(${r}, ${g}, ${b})`,
-  });
-};
 
 const setTheme = (number) => {
   const index = themes.findIndex(v => v.id === number);
@@ -30,13 +23,13 @@ const deleteTheme = (id) => {
   themes.forEach((elem, index) => {
     if (elem.id === id) {
       themes.splice(index, 1);
-      $.get('/src/php/saveTheme.php', { id, mode: 'delete' }).done((response) => {
+      $.get('/src/php/api/delete_theme.php', { id }).done((response) => {
         message(response);
       });
 
-      $(`[data-id="${id}"`).hide();
-      $(`[data-delete-id="${id}"`).hide();
-      $(`[data-edit-id="${id}"`).hide();
+      $(`[data-id="${id}"`).remove();
+      $(`[data-delete-id="${id}"`).remove();
+      $(`[data-edit-id="${id}"`).remove();
     }
   });
 };
@@ -73,32 +66,37 @@ const createElement = (newId, r, g, b, name) => {
   });
 };
 
+const saveEditedTheme = (rgb, name) => {
+  const { r, g, b } = rgb;
+  const newId = themes[editIndex].id;
+
+  const newElem = $(`[data-id="${newId}"`);
+  message(newId);
+
+  themes[editIndex] = {
+    name,
+    r,
+    g,
+    b,
+    id: newId,
+  };
+
+  newElem.text(name);
+
+  $.get('/src/php/api/update_theme.php', { theme: themes[editIndex] }).done((response) => {
+    if (response) {
+      message(response);
+    }
+  });
+
+  editActive = false;
+};
+
 const saveTheme = (rgb, name, mode, id = null) => {
   const { r, g, b } = rgb;
 
   if (editActive) {
-    const newId = themes[editIndex].id;
-
-    const newElem = $(`[data-id="${newId}"`);
-    message(newId);
-
-    themes[editIndex] = {
-      name,
-      r,
-      g,
-      b,
-      id: newId,
-    };
-
-    newElem.text(name);
-
-    $.get('/src/php/saveTheme.php', { json: JSON.stringify(themes[editIndex]), mode: 'update' }).done((response) => {
-      if (response) {
-        message(response);
-      }
-    });
-
-    editActive = false;
+    saveEditedTheme(rgb, name);
   } else if (name) {
     let newId = id;
     if (!mode) {
@@ -110,13 +108,13 @@ const saveTheme = (rgb, name, mode, id = null) => {
         id: null,
       });
 
-      $.get('/src/php/saveTheme.php', {
-        json: JSON.stringify({
+      $.get('/src/php/api/save_theme.php', {
+        theme: {
           r,
           g,
           b,
           name,
-        }),
+        },
         mode: 'save',
       }).done((response) => {
         if (response) {
@@ -138,14 +136,19 @@ const saveTheme = (rgb, name, mode, id = null) => {
 
 const loadThemes = () => {
   $.get('/src/php/api/get_themes.php').done((response) => {
-    const params = JSON.parse(response);
-    if (params !== 'no results') {
-      params.forEach((elem) => {
-        const { r, g, b } = elem;
+    const data = JSON.parse(response);
 
-        saveTheme({ r, g, b }, elem.name, 'dsave', parseInt(elem.id, 10));
-      });
+    if (data.type === 'error') {
+      message(data.msg);
+
+      return;
     }
+
+    data.forEach((item) => {
+      const { r, g, b } = item;
+
+      saveTheme({ r, g, b }, item.name, 'dsave', parseInt(item.id, 10));
+    });
   });
 };
 
