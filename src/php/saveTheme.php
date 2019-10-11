@@ -23,25 +23,6 @@ if ($mode === 'save') {
     echo json_encode($data);
 }
 
-
-
-if ($mode === 'get') {
-    $sql = "select id, r, g, b, name from `themes` WHERE user = '$user'";
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // output data of each row
-        $newJsons = [];
-        while ($row = $result->fetch_assoc()) {
-            $newJsons[] = (json_encode($row));
-        }
-        echo '['. join(', ', $newJsons) . ']';
-    } else {
-        echo '"no results"';
-    }
-}
-
 if ($mode === 'delete') {
     $sql = "DELETE FROM `themes` WHERE ID = $id";
     if ($conn->query($sql) === false) {

@@ -137,7 +137,7 @@ const saveTheme = (rgb, name, mode, id = null) => {
 };
 
 const loadThemes = () => {
-  $.get('/src/php/saveTheme.php', { mode: 'get' }).done((response) => {
+  $.get('/src/php/api/get_themes.php').done((response) => {
     const params = JSON.parse(response);
     if (params !== 'no results') {
       params.forEach((elem) => {
