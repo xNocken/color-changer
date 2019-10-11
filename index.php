@@ -9,7 +9,7 @@ if (isset($_SESSION['user'])) {
 ?>
 <html>
   <head>
-    <title>teest</title>
+    <title>Color Changer</title>
     <link rel="stylesheet" href="./dist/style.css">
   </head>
   <body>
