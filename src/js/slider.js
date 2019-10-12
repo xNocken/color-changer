@@ -93,41 +93,29 @@ const saveEditedTheme = (rgb, name) => {
   editActive = false;
 };
 
-const saveTheme = (rgb, name, mode, id = null) => {
+const saveTheme = (rgb, name) => {
   const { r, g, b } = rgb;
 
   if (editActive) {
     saveEditedTheme(rgb, name);
   } else if (name) {
-    let newId = id;
-    if (!mode) {
-      themes.push({
-        r,
-        g,
-        b,
-        name,
-        id: null,
-      });
+    const theme = {
+      r,
+      g,
+      b,
+      name,
+    };
 
-      $.get('/src/php/api/save_theme.php', {
-        theme: {
-          r,
-          g,
-          b,
-          name,
-        },
-        mode: 'save',
-      }).done((response) => {
-        if (response) {
-          const res = JSON.parse(response);
+    themes.push(theme);
 
-          message(res.msg);
-          newId = res.id;
+    $.get('/src/php/api/save_theme.php', { theme }).done((response) => {
+      if (response) {
+        const res = JSON.parse(response);
 
-          createElement(newId, r, g, b, name);
-        }
-      });
-    }
+        message(res.msg);
+        createElement(res.id, r, g, b, name);
+      }
+    });
   } else {
     message('Name darf nicht leer sein');
   }
