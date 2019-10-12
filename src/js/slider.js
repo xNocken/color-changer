@@ -127,8 +127,6 @@ const saveTheme = (rgb, name, mode, id = null) => {
           createElement(newId, r, g, b, name);
         }
       });
-    } else {
-      createElement(newId, r, g, b, name);
     }
   } else {
     message('Name darf nicht leer sein');
@@ -148,7 +146,7 @@ const loadThemes = () => {
     data.forEach((item) => {
       const { r, g, b } = item;
 
-      saveTheme({ r, g, b }, item.name, 'dsave', parseInt(item.id, 10));
+      createElement(parseInt(item.id, 10), r, g, b, item.name);
     });
   });
 };
