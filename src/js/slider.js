@@ -43,9 +43,17 @@ const editTheme = (id) => {
   $('#text').val(themes[index].name);
 };
 
-const createElement = (newId, r, g, b, name) => {
+const createElement = (theme) => {
+  const {
+    newId,
+    r,
+    g,
+    b,
+    name,
+  } = theme;
+
   $('#themes').append(`<div class="items" data-id-div="${newId}"></div>`);
-  const newDiv = $(`[data-id-div="${newId}"`);
+  const newDiv = $(`[data-id-div="${newId}"]`);
 
   newDiv.append(`<div class="theme-select" data-id="${newId}">${name} </div>`);
   newDiv.append(`<div class="theme-select" data-delete-id="${newId}">Delete </div>`);
@@ -113,7 +121,10 @@ const saveTheme = (rgb, name) => {
         const res = JSON.parse(response);
 
         message(res.msg);
-        createElement(res.id, r, g, b, name);
+        createElement({
+          id: res.id,
+          ...theme,
+        });
       }
     });
   } else {
@@ -131,11 +142,7 @@ const loadThemes = () => {
       return;
     }
 
-    data.forEach((item) => {
-      const { r, g, b } = item;
-
-      createElement(parseInt(item.id, 10), r, g, b, item.name);
-    });
+    data.forEach(theme => createElement(theme));
   });
 };
 
