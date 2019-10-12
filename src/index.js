@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
 import login from './js/login';
+import logout from './js/logout';
 import message from './js/alert';
 import slider from './js/slider';
 
@@ -10,6 +11,7 @@ global.$ = $;
 
 $(() => {
   login();
+  logout();
   message('Hallo');
   slider();
 });
