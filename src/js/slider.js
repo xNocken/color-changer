@@ -1,6 +1,8 @@
 import $ from 'jquery';
 
-import message from './alert';
+import message from './message';
+import request from './request';
+import routes from './routes';
 import { changeColor } from './renderer';
 
 const themes = [];
@@ -11,20 +13,19 @@ let editIndex = 0;
 const setTheme = (number) => {
   const index = themes.findIndex(v => v.id === number);
   const rgb = themes[index];
-  const { r, g, b } = rgb;
 
   changeColor(rgb);
 
-  $('#r').val(r);
-  $('#g').val(g);
-  $('#b').val(b);
+  $('#r').val(rgb.r);
+  $('#g').val(rgb.g);
+  $('#b').val(rgb.b);
 };
 
 const deleteTheme = (id) => {
   themes.forEach((elem, index) => {
     if (elem.id === id) {
       themes.splice(index, 1);
-      $.get('/src/php/api/delete_theme.php', { id }).done((response) => {
+      $.get(routes.delete, { id }).done((response) => {
         message(response);
       });
 
@@ -43,7 +44,7 @@ const editTheme = (id) => {
   $('#text').val(themes[index].name);
 };
 
-const createElement = (theme) => {
+export const createElement = (theme) => {
   const {
     newId,
     r,
@@ -92,7 +93,7 @@ const saveEditedTheme = (rgb, name) => {
 
   newElem.text(name);
 
-  $.get('/src/php/api/update_theme.php', { theme: themes[editIndex] }).done((response) => {
+  $.get(routes.update, { theme: themes[editIndex] }).done((response) => {
     if (response) {
       message(response);
     }
@@ -101,49 +102,34 @@ const saveEditedTheme = (rgb, name) => {
   editActive = false;
 };
 
-const saveTheme = (rgb, name) => {
+const saveTheme = (theme) => {
+  themes.push(theme);
+
+  $.get(routes.save, { theme }).done((response) => {
+    if (response) {
+      const { id, msg } = JSON.parse(response);
+
+      message(msg);
+      createElement({ id, ...theme });
+    }
+  });
+};
+
+const handleSave = (rgb, name) => {
   const { r, g, b } = rgb;
 
   if (editActive) {
     saveEditedTheme(rgb, name);
   } else if (name) {
-    const theme = {
+    saveTheme({
       r,
       g,
       b,
       name,
-    };
-
-    themes.push(theme);
-
-    $.get('/src/php/api/save_theme.php', { theme }).done((response) => {
-      if (response) {
-        const res = JSON.parse(response);
-
-        message(res.msg);
-        createElement({
-          id: res.id,
-          ...theme,
-        });
-      }
     });
   } else {
     message('Name darf nicht leer sein');
   }
-};
-
-const loadThemes = () => {
-  $.get('/src/php/api/get_themes.php').done((response) => {
-    const data = JSON.parse(response);
-
-    if (data.type === 'error') {
-      message(data.msg);
-
-      return;
-    }
-
-    data.forEach(theme => createElement(theme));
-  });
 };
 
 export default () => {
@@ -152,7 +138,7 @@ export default () => {
   const $g = $('#g');
   const $b = $('#b');
 
-  loadThemes();
+  request.get();
 
   $('#r, #g, #b').on('change', () => changeColor({
     r: $r.val(),
@@ -160,7 +146,7 @@ export default () => {
     b: $b.val(),
   }));
 
-  $('#button').on('click', () => saveTheme({
+  $('#button').on('click', () => handleSave({
     r: $r.val(),
     g: $g.val(),
     b: $b.val(),

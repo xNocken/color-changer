@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import message from './alert';
+import message from './message';
 
 export default () => {
   $('#login-form').on('submit', (event) => {
