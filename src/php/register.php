@@ -3,9 +3,9 @@
     error_reporting(E_ERROR | E_PARSE);
     $data = [];
 
-    if (isset($_REQUEST["user"]) && isset($_REQUEST["pw"])) {
-        $user = strtolower($_REQUEST["user"]);
-        $pw = password_hash($_REQUEST["pw"], PASSWORD_DEFAULT);
+    if (isset($_POST["user"]) && isset($_POST["pw"])) {
+        $user = strtolower($_POST["user"]);
+        $pw = password_hash($_POST["pw"], PASSWORD_DEFAULT);
 
         $user = $conn->real_escape_string($user);
         $sql = "SELECT user FROM `users` WHERE user = '$user' LIMIT 1;";

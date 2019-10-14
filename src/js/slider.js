@@ -1,45 +1,37 @@
 import $ from 'jquery';
-import message from './alert';
+
+import message from './message';
+import request from './request';
+import routes from './routes';
+import { changeColor } from './renderer';
 
 const themes = [];
 
 let editActive = false;
 let editIndex = 0;
 
-const changeColor = (r, g, b) => {
-  const $body = $('body');
-  const $r = $('#r');
-  const $g = $('#g');
-  const $b = $('#b');
-
-  $r.val(r);
-  $g.val(g);
-  $b.val(b);
-
-  $body.css({
-    backgroundColor: `rgb(${r}, ${g}, ${b})`,
-  });
-};
-
 const setTheme = (number) => {
   const index = themes.findIndex(v => v.id === number);
+  const rgb = themes[index];
 
-  const { r, g, b } = themes[index];
+  changeColor(rgb);
 
-  changeColor(r, g, b);
+  $('#r').val(rgb.r);
+  $('#g').val(rgb.g);
+  $('#b').val(rgb.b);
 };
 
 const deleteTheme = (id) => {
   themes.forEach((elem, index) => {
     if (elem.id === id) {
       themes.splice(index, 1);
-      $.get('/src/php/saveTheme.php', { id, mode: 'delete' }).done((response) => {
+      $.get(routes.delete, { id }).done((response) => {
         message(response);
       });
 
-      $(`[data-id="${id}"`).hide();
-      $(`[data-delete-id="${id}"`).hide();
-      $(`[data-edit-id="${id}"`).hide();
+      $(`[data-id="${id}"`).remove();
+      $(`[data-delete-id="${id}"`).remove();
+      $(`[data-edit-id="${id}"`).remove();
     }
   });
 };
@@ -52,9 +44,17 @@ const editTheme = (id) => {
   $('#text').val(themes[index].name);
 };
 
-const createElement = (newId, r, g, b, name) => {
+export const createElement = (theme) => {
+  const {
+    newId,
+    r,
+    g,
+    b,
+    name,
+  } = theme;
+
   $('#themes').append(`<div class="items" data-id-div="${newId}"></div>`);
-  const newDiv = $(`[data-id-div="${newId}"`);
+  const newDiv = $(`[data-id-div="${newId}"]`);
 
   newDiv.append(`<div class="theme-select" data-id="${newId}">${name} </div>`);
   newDiv.append(`<div class="theme-select" data-delete-id="${newId}">Delete </div>`);
@@ -76,93 +76,79 @@ const createElement = (newId, r, g, b, name) => {
   });
 };
 
-const saveTheme = (r, g, b, name, mode, id = null) => {
+const saveEditedTheme = (rgb, name) => {
+  const { r, g, b } = rgb;
+  const newId = themes[editIndex].id;
+
+  const newElem = $(`[data-id="${newId}"`);
+  message(newId);
+
+  themes[editIndex] = {
+    name,
+    r,
+    g,
+    b,
+    id: newId,
+  };
+
+  newElem.text(name);
+
+  $.get(routes.update, { theme: themes[editIndex] }).done((response) => {
+    if (response) {
+      message(response);
+    }
+  });
+
+  editActive = false;
+};
+
+const saveTheme = (theme) => {
+  themes.push(theme);
+
+  $.get(routes.save, { theme }).done((response) => {
+    if (response) {
+      const { id, msg } = JSON.parse(response);
+
+      message(msg);
+      createElement({ id, ...theme });
+    }
+  });
+};
+
+const handleSave = (rgb, name) => {
+  const { r, g, b } = rgb;
+
   if (editActive) {
-    const newId = themes[editIndex].id;
-
-    const newElem = $(`[data-id="${newId}"`);
-    message(newId);
-
-    themes[editIndex] = {
-      name,
+    saveEditedTheme(rgb, name);
+  } else if (name) {
+    saveTheme({
       r,
       g,
       b,
-      id: newId,
-    };
-
-    newElem.text(name);
-
-    $.get('/src/php/saveTheme.php', { json: JSON.stringify(themes[editIndex]), mode: 'update' }).done((response) => {
-      if (response) {
-        message(response);
-      }
+      name,
     });
-
-    editActive = false;
-  } else if (name) {
-    let newId = id;
-    if (!mode) {
-      themes.push({
-        r,
-        g,
-        b,
-        name,
-        id: null,
-      });
-
-      $.get('/src/php/saveTheme.php', {
-        json: JSON.stringify({
-          r,
-          g,
-          b,
-          name,
-        }),
-        mode: 'save',
-      }).done((response) => {
-        if (response) {
-          const res = JSON.parse(response);
-
-          message(res.msg);
-          newId = res.id;
-
-          createElement(newId, r, g, b, name);
-        }
-      });
-    } else {
-      createElement(newId, r, g, b, name);
-    }
   } else {
     message('Name darf nicht leer sein');
   }
 };
 
-const loadThemes = () => {
-  $.get('/src/php/saveTheme.php', { mode: 'get' }).done((response) => {
-    if (response === '401') {
-      window.location.href = '/login.html';
-    }
-
-    const params = JSON.parse(response);
-    if (params !== 'no results') {
-      params.forEach((elem) => {
-        saveTheme(elem.r, elem.g, elem.b, elem.name, 'dsave', parseInt(elem.id, 10));
-      });
-    }
-  });
-};
-
 export default () => {
-  if (document.title === 'teest') {
-    const $r = $('#r');
-    const $g = $('#g');
-    const $b = $('#b');
-    const $text = $('#text');
+  const $text = $('#text');
+  const $r = $('#r');
+  const $g = $('#g');
+  const $b = $('#b');
 
-    loadThemes();
-    changeColor($r.val(), $g.val(), $b.val());
+  request.get();
 
-    $('#r, #g, #b').on('change', () => changeColor($r.val(), $g.val(), $b.val()));
-    $('#button').on('click', () => saveTheme($r.val(), $g.val(), $b.val(), $text.val()));
-  }
+  $('#r, #g, #b').on('change', () => changeColor({
+    r: $r.val(),
+    g: $g.val(),
+    b: $b.val(),
+  }));
+
+  $('#button').on('click', () => handleSave({
+    r: $r.val(),
+    g: $g.val(),
+    b: $b.val(),
+  }, $text.val()));
 };
