@@ -31,6 +31,8 @@
                     'type' => 'success',
                     'msg'  => 'Registered',
                 ];
+
+                $_SESSION["user"] = $user;
             }
         }
         echo json_encode($data);
