@@ -7,3 +7,7 @@ export const changeColor = (rgb) => {
     backgroundColor: `rgb(${r}, ${g}, ${b})`,
   });
 };
+
+export default () => {
+
+};

@@ -5,106 +5,86 @@ import request from './request';
 import routes from './routes';
 import { changeColor } from './renderer';
 
-const themes = [];
+const setTheme = (id) => {
+  const theme = $(`[data-id="${id}"]`).data('theme');
 
-let editActive = false;
-let editIndex = 0;
+  changeColor(theme);
 
-const setTheme = (number) => {
-  const index = themes.findIndex(v => v.id === number);
-  const rgb = themes[index];
-
-  changeColor(rgb);
-
-  $('#r').val(rgb.r);
-  $('#g').val(rgb.g);
-  $('#b').val(rgb.b);
+  $('#r').val(theme.r);
+  $('#g').val(theme.g);
+  $('#b').val(theme.b);
 };
 
 const deleteTheme = (id) => {
-  themes.forEach((elem, index) => {
-    if (elem.id === id) {
-      themes.splice(index, 1);
-      $.get(routes.delete, { id }).done((response) => {
-        message(response);
-      });
-
-      $(`[data-id="${id}"`).remove();
-      $(`[data-delete-id="${id}"`).remove();
-      $(`[data-edit-id="${id}"`).remove();
-    }
+  $.get(routes.delete, { id }).done((response) => {
+    message(response);
   });
+
+  $(`[data-id="${id}"`).remove();
+  $(`[data-delete-id="${id}"`).remove();
+  $(`[data-edit-id="${id}"`).remove();
 };
 
 const editTheme = (id) => {
-  const index = themes.findIndex(v => v.id === id);
-  editActive = true;
-  editIndex = index;
+  const theme = $(`[data-id="${id}"]`).data('theme');
+  $(`[data-id="${id}"]`).addClass('edit');
+
   setTheme(id);
-  $('#text').val(themes[index].name);
+  $('#text').val(theme.name);
 };
 
 export const createElement = (theme) => {
   const {
-    newId,
-    r,
-    g,
-    b,
+    id,
     name,
   } = theme;
 
-  $('#themes').append(`<div class="items" data-id-div="${newId}"></div>`);
-  const newDiv = $(`[data-id-div="${newId}"]`);
+  $('#themes').append(`<div class="items" data-id-div="${id}"></div>`);
+  const newDiv = $(`[data-id-div="${id}"]`);
 
-  newDiv.append(`<div class="theme-select" data-id="${newId}">${name} </div>`);
-  newDiv.append(`<div class="theme-select" data-delete-id="${newId}">Delete </div>`);
-  newDiv.append(`<div class="theme-select" data-edit-id="${newId}">Edit</div>`);
+  newDiv.append(`<div class="theme-select" data-id="${id}">${name}</div>`);
+  newDiv.append(`<div class="theme-select" data-delete-id="${id}">Delete </div>`);
+  newDiv.append(`<div class="theme-select" data-edit-id="${id}">Edit</div>`);
 
-  const newElem = $(`[data-id="${newId}"`);
-  const newDeleteElem = $(`[data-delete-id="${newId}"`);
-  const newEditElem = $(`[data-edit-id="${newId}"`);
+  const newElem = $(`[data-id="${id}"`);
+  const newDeleteElem = $(`[data-delete-id="${id}"`);
+  const newEditElem = $(`[data-edit-id="${id}"`);
+
+  newElem.data('theme', theme);
 
   newDeleteElem.on('click', event => deleteTheme($(event.target).data('delete-id')));
   newEditElem.on('click', event => editTheme($(event.target).data('edit-id')));
   newElem.on('click', event => setTheme($(event.target).data('id')));
-  themes.push({
-    r,
-    g,
-    b,
-    name,
-    id: newId,
-  });
 };
 
-const saveEditedTheme = (rgb, name) => {
+const saveEditedTheme = (rgb, name, id) => {
+  const theme = $(`[data-id="${id}"]`).data('theme');
   const { r, g, b } = rgb;
-  const newId = themes[editIndex].id;
+  const newId = theme.id;
 
   const newElem = $(`[data-id="${newId}"`);
   message(newId);
 
-  themes[editIndex] = {
+  newElem.data('theme', {
     name,
     r,
     g,
     b,
     id: newId,
-  };
+  });
 
   newElem.text(name);
 
-  $.get(routes.update, { theme: themes[editIndex] }).done((response) => {
+  $.get(routes.update, { theme }).done((response) => {
     if (response) {
       message(response);
     }
   });
 
-  editActive = false;
+  $('.edit').removeClass('edit');
 };
 
 const saveTheme = (theme) => {
-  themes.push(theme);
-
   $.get(routes.save, { theme }).done((response) => {
     if (response) {
       const { id, msg } = JSON.parse(response);
@@ -117,9 +97,10 @@ const saveTheme = (theme) => {
 
 const handleSave = (rgb, name) => {
   const { r, g, b } = rgb;
+  const editElem = $('.edit');
 
-  if (editActive) {
-    saveEditedTheme(rgb, name);
+  if (editElem.length !== 0) {
+    saveEditedTheme(rgb, name, editElem.data('theme').id);
   } else if (name) {
     saveTheme({
       r,
