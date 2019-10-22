@@ -17,7 +17,7 @@ export default () => {
     b: $b.val(),
   }));
 
-  $('#button').on('click', () => handleSave({
+  $('#button').on('click', () => request.save({
     r: $r.val(),
     g: $g.val(),
     b: $b.val(),

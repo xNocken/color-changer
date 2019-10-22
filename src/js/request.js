@@ -37,7 +37,7 @@ const updateTheme = (id) => {
   $('#text').val(theme.name);
 };
 
-const deleteTheme = (id) => {
+const deleteTheme = (id, rgb, name) => {
   $.get(routes.delete, { id }).done((response) => {
     message(response);
   });
@@ -48,21 +48,23 @@ const deleteTheme = (id) => {
 };
 
 const saveEditedTheme = (rgb, name, id) => {
-  const theme = $(`[data-id="${id}"]`).data('theme');
+  let theme = $(`[data-id="${id}"]`).data('theme');
   const { r, g, b } = rgb;
   const newId = theme.id;
-
+  
   const newElem = $(`[data-id="${newId}"`);
   message(newId);
 
-  newElem.data('theme', {
+  theme = {
     name,
     r,
     g,
     b,
     id: newId,
-  });
-
+  };
+  
+  newElem.data('theme', theme);
+  
   newElem.text(name);
 
   $.get(routes.update, { theme }).done((response) => {
@@ -92,10 +94,9 @@ const handleSave = (rgb, name) => {
   }
 };
 
-
 export default {
-  delete: () => deleteTheme(),
+  delete: (id) => deleteTheme(id),
   get: () => getThemes(),
-  save: () => handleSave(),
-  update: () => updateTheme(),
+  save: (rgb, name) => handleSave(rgb, name),
+  update: (id) => updateTheme(id),
 };
