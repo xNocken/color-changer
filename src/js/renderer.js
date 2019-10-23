@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import listener from './setListener';
 
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
@@ -36,7 +35,7 @@ export const createElement = (theme) => {
   const newDeleteElem = $(`[data-delete-id="${id}"`);
   const newEditElem = $(`[data-edit-id="${id}"`);
 
-  listener(newDeleteElem, newEditElem);
+  $('body').trigger('setListener', { newDeleteElem, newEditElem });
 
   newElem.data('theme', theme);
 

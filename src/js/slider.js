@@ -22,4 +22,10 @@ export default () => {
     g: $g.val(),
     b: $b.val(),
   }, $text.val()));
+
+  $('body').on('setListener', (item, items) => {
+    console.log($(items.newEditElem));
+    $(items.newDeleteElem).on('click', event => request.delete($(event.target).data('delete-id')));
+    $(items.newEditElem).on('click', event => request.update($(event.target).data('edit-id')));
+  });
 };

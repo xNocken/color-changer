@@ -31,6 +31,7 @@ const saveTheme = (theme) => {
 
 const updateTheme = (id) => {
   const theme = $(`[data-id="${id}"]`).data('theme');
+  $('.edit').removeClass('edit');
   $(`[data-id="${id}"]`).addClass('edit');
 
   setTheme(id);
