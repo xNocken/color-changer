@@ -2,3 +2,4 @@ node_modules
 dist
 src/php/db.php
 codiwars.js
+.idea
