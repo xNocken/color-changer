@@ -39,7 +39,9 @@ CREATE TABLE `themes` (
 
 CREATE TABLE `users` (
   `user` varchar(16) NOT NULL,
-  `pw` varchar(255) DEFAULT NULL
+  `pw` varchar(255) DEFAULT NULL,
+  `security_question` VARCHAR(200) NULL,
+  `security_answer` VARCHAR(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -53,6 +55,10 @@ CREATE TABLE `users` (
 ALTER TABLE `themes`
   ADD PRIMARY KEY (`id`);
 COMMIT;
+
+ALTER TABLE `themes`
+  CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user`);

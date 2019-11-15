@@ -5,6 +5,8 @@ button,
   border: none;
   outline: none;
   cursor: pointer;
+  text-decoration: none;
+  padding: 1px 6px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.7);

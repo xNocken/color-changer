@@ -8,7 +8,7 @@
         $pw = $_POST["pw"];
 
         $user = $conn->real_escape_string($user);
-        $sql = "SELECT user, pw FROM `users` WHERE user = $user LIMIT 1;";
+        $sql = "SELECT user, pw FROM `users` WHERE user = '$user' LIMIT 1;";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

@@ -1,6 +1,10 @@
 <?php
 require('../db.php');
 
+if (!isset($_SESSION['user'])) {
+    die('["", ""]');
+}
+
 $result = $conn->query('SELECT * FROM themes WHERE user = \'' . $_SESSION['user'] . '\'');
 
 $data = [];
