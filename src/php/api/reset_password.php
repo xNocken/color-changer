@@ -5,7 +5,7 @@ $username = $_REQUEST['username'];
 $pw = password_hash($_POST["password"], PASSWORD_DEFAULT);
 $answer = $_REQUEST['answer'];
 $sqlAuth = "SELECT security_answer FROM users WHERE user = '" . $username . "'";
-$sql = 'UPDATE users SET pw = \'' . $conn->real_escape_string($pw) . '\' WHERE user = \'' . $username . '\'';
+$sql = 'UPDATE users SET pw = \'' . $conn->real_escape_string($pw) . '\' WHERE user = \'' . $conn->real_escape_string($username) . '\'';
 
 $result = $conn->query($sqlAuth);
 
