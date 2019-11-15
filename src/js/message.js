@@ -6,8 +6,8 @@ $(() => {
   $('.center').prepend('<div id="response"></div>');
 });
 
-export default (message) => {
+export default (message, time = 3000) => {
   clearTimeout(timeout);
   $('#response').text(message);
-  timeout = setTimeout(() => { $('#response').empty(); }, 3000);
+  timeout = setTimeout(() => { $('#response').empty(); }, time);
 };

@@ -17,6 +17,7 @@ if (isset($_SESSION['user'])) {
       <?php if (!$user) {
         include('login.html');
       } else { ?>
+      <a class="button" href="/security.php" id="addQuestion">Add security question</a href="/security.html"><br><br>
       <button id="logout">Logout</button>
       <div>
         <input class="rs-range" type="range" id="r" min="0" max="255">r<br>
