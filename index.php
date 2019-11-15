@@ -16,21 +16,9 @@ if (isset($_SESSION['user'])) {
     <div class="center">
       <?php if (!$user) {
         include('login.html');
-      } else { ?>
-      <a class="button" href="/security.php" id="addQuestion">Add security question</a href="/security.html"><br><br>
-      <button id="logout">Logout</button>
-      <div>
-        <input class="rs-range" type="range" id="r" min="0" max="255">r<br>
-        <input class="rs-range" type="range" id="g" min="0" max="255">g<br>
-        <input class="rs-range" type="range" id="b" min="0" max="255">b<br>
-        <input type="submit" id="button">
-        <input type="text" placeholder="Name" id="text">
-        <br>
-      </div>
-
-      <h2>Themes</h2>
-      <div id="themes"></div>
-      <?php } ?>
+      } else {
+        include('changer.html');
+      } ?>
     </div>
     <script src="./dist/app.js"></script>
   </body>

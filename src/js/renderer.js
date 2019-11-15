@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import handlebars from 'handlebars';
 
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
@@ -19,17 +20,14 @@ export const setTheme = (id) => {
 };
 
 export const createElement = (theme) => {
+  const templateSource = $('#colortemplate').html();
+  const renderTemplate = handlebars.compile(templateSource);
+
   const {
     id,
-    name,
   } = theme;
 
-  $('#themes').append(`<div class="items" data-id-div="${id}"></div>`);
-  const newDiv = $(`[data-id-div="${id}"]`);
-
-  newDiv.append(`<div class="theme-select" id="${id}" data-id="${id}">${name}</div>`);
-  newDiv.append(`<div class="theme-select" data-delete-id="${id}">Delete </div>`);
-  newDiv.append(`<div class="theme-select" data-edit-id="${id}">Edit</div>`);
+  $('#themes').append(renderTemplate(theme));
 
   const newElem = $(`[data-id="${id}"`);
   const newDeleteElem = $(`[data-delete-id="${id}"`);

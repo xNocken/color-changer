@@ -34,6 +34,7 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
+    "handlebars": "^4.5.2",
     "jquery": "^3.4.1"
   }
 }

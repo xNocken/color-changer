@@ -5,7 +5,7 @@ import message from './message';
 import { setTheme, createElement } from './renderer';
 
 const getThemes = () => {
-  $.get(routes.get).done((response) => {
+  $.post(routes.get).done((response) => {
     const data = JSON.parse(response);
 
     if (data.type === 'error') {
@@ -19,12 +19,14 @@ const getThemes = () => {
 };
 
 const saveTheme = (theme) => {
-  $.get(routes.save, { theme }).done((response) => {
+  $.post(routes.save, { theme }).done((response) => {
     if (response) {
-      const { id, msg } = JSON.parse(response);
+      const { id, msg, success } = JSON.parse(response);
 
       message(msg);
-      createElement({ id, ...theme });
+      if (success) {
+        createElement({ id, ...theme });
+      }
     }
   });
 };
@@ -40,7 +42,7 @@ const updateTheme = (id) => {
 };
 
 const deleteTheme = (id) => {
-  $.get(routes.delete, { id }).done((response) => {
+  $.post(routes.delete, { id }).done((response) => {
     message(response);
   });
 
@@ -69,7 +71,7 @@ const saveEditedTheme = (rgb, name, id) => {
 
   newElem.text(name);
 
-  $.get(routes.update, { theme }).done((response) => {
+  $.post(routes.update, { theme }).done((response) => {
     if (response) {
       message(response);
     }

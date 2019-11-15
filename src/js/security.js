@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import handlebars from 'handlebars';
 import message from './message';
 
 const changePassword = (target, username) => {
@@ -21,12 +22,19 @@ const changePassword = (target, username) => {
       }
     });
   } else {
-    message('Passwords dont match');
+    message('Passwords don\'t match', 10000000);
   }
 };
 
 export default () => {
   const $resetForm = $('#reset_password');
+  const resetTemplate = $('#resetform').html();
+  let renderTemplate;
+
+  if (resetTemplate) {
+    renderTemplate = handlebars.compile(resetTemplate);
+  }
+
 
   $('#security_form').on('submit', (event) => {
     event.preventDefault();
@@ -78,15 +86,8 @@ export default () => {
 
       if (exist) {
         $resetForm.empty();
-        $resetForm.append(`<p>${securityQuestion}</p>
-                          <input type="text" placeholder="Answer"><br>
-                          <input autocomplete="on" type="password" placeholder="Password"><br>
-                          <input autocomplete="on" type="password" placeholder="Repeat Password"><br>
-                          <input type="submit" value="submit">
-                          <input type="hidden" value="change">`);
+        $resetForm.append(renderTemplate({ securityQuestion }));
       }
-
-      message(exist);
     });
   });
 };

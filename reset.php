@@ -14,5 +14,15 @@
         </form>
     </div>
     <script src="/dist/app.js"></script>
+
+    <script type="text/x-handlebars-template" id="resetform">
+        <p>{{ securityQuestion }}</p>
+        <input type="text" placeholder="Answer"><br>
+        <input autocomplete="on" type="password" placeholder="Password"><br>
+        <input autocomplete="on" type="password" placeholder="Repeat Password"><br>
+        <input type="submit" value="submit">
+        <input type="hidden" value="change">
+    </script>
+
 </body>
 </html>

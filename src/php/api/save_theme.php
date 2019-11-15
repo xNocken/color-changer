@@ -14,14 +14,22 @@ $sql = 'INSERT INTO
             g = ' . $conn->real_escape_string($theme['g']) . ',
             b = ' . $conn->real_escape_string($theme['b']) . ',
             name = \'' . $conn->real_escape_string($theme['name']) . '\',
-            user = \'' . $_SESSION['user'] . '\'';
+            use.r = \'' . $_SESSION['user'] . '\'';
 
 if ($conn->query($sql) === false) {
-    echo $conn->error. '!';
+    $data = [
+        "err" => $conn->error. '!',
+        "id" => null,
+        "success" => false,
+        "msg" => "Error while saving Theme",
+    ];
 } else {
-    echo json_encode([
+    $data = [
         'id' => $conn->insert_id,
-    ]);
+        "success" => true,
+        "msg" => "Saved successfully",
+    ];
 }
 
+echo json_encode($data);
 $conn->close();
