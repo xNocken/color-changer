@@ -14,7 +14,7 @@ $sql = 'INSERT INTO
             g = ' . $conn->real_escape_string($theme['g']) . ',
             b = ' . $conn->real_escape_string($theme['b']) . ',
             name = \'' . $conn->real_escape_string($theme['name']) . '\',
-            use.r = \'' . $_SESSION['user'] . '\'';
+            user = \'' . $_SESSION['user'] . '\'';
 
 if ($conn->query($sql) === false) {
     $data = [

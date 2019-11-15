@@ -11,6 +11,12 @@ export default () => {
 
   request.get();
 
+  changeColor({
+    r: $r.val(),
+    g: $g.val(),
+    b: $b.val(),
+  });
+
   $('#r, #g, #b').on('change', () => changeColor({
     r: $r.val(),
     g: $g.val(),
