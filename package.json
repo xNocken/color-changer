@@ -4,9 +4,9 @@
   "description": "Color scheme managing application",
   "private": true,
   "scripts": {
-    "dev": "yarn run webpack",
-    "prod": "yarn run webpack -p",
-    "watch": "yarn run webpack --watch"
+    "dev": "yarn webpack",
+    "prod": "yarn webpack -p",
+    "watch": "yarn webpack --watch"
   },
   "author": "Marc Lübke",
   "license": "MIT",

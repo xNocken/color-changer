@@ -1,10 +1,20 @@
 import $ from 'jquery';
 import handlebars from 'handlebars';
 
+const threshhold = 10;
+
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
 
-  const nRGB = [r, g, b].map(item => (255 - parseInt(item, 10)));
+  const nRGB = Object.values(rgb).map((item) => {
+    const inverseColor = 255 - parseInt(item, 10);
+
+    if ((inverseColor > 127 + threshhold) || (inverseColor < 127 - threshhold)) {
+      return inverseColor;
+    }
+
+    return 0;
+  });
 
   $('.name').css({
     color: `rgb(${nRGB[0]}, ${nRGB[1]}, ${nRGB[2]})`,
