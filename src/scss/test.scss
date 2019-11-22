@@ -2,13 +2,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease;
   text-align: center;
 }
 
 .theme-select {
   cursor: pointer;
-  display: inline;
+  display: inline-block;
   margin-left: 5px;
   margin-right: 5px;
 
@@ -18,6 +17,14 @@ body {
 
   &[data-edit-id] {
     color: rgb(24, 207, 55);
+    margin-right: 20px;
+  }
+
+  &[data-id] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
   }
 
   &:hover {
@@ -26,3 +33,51 @@ body {
 }
 
 
+.input-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+
+  input {
+
+  }
+
+  input[type="text"] {
+    height: 21px;
+    border: 0;
+    outline: 0;
+    border-radius: 1.25rem;
+    border: {
+      top-right-radius: 0;
+      bottom-right-radius: 0;
+    }
+
+    cursor: text;
+  }
+
+  input[type="submit"] {
+    height: 21px;
+    border: 0;
+    outline: 0;
+    border-radius: 1.25rem;
+    border: {
+      top-left-radius: 0;
+      bottom-left-radius: 0;
+    }
+
+    cursor: pointer;
+  }
+}
+
+.changer, .themes {
+  display: inline-block;
+}
+
+#themes {
+  max-height: 308px;
+  overflow: scroll;
+  overflow-x: hidden;
+  outline: black 1px solid;
+  margin-left: 20px;
+}

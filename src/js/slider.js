@@ -17,7 +17,7 @@ export default () => {
     b: $b.val(),
   });
 
-  $('#r, #g, #b').on('change', () => changeColor({
+  $('#r, #g, #b').on('input', () => changeColor({
     r: $r.val(),
     g: $g.val(),
     b: $b.val(),
