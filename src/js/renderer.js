@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import handlebars from 'handlebars';
 
-const threshhold = 10;
+const threshhold = 25;
 
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
@@ -16,7 +16,7 @@ export const changeColor = (rgb) => {
     return 0;
   });
 
-  $('.name').css({
+  $('.theme-select').css({
     color: `rgb(${nRGB[0]}, ${nRGB[1]}, ${nRGB[2]})`,
   });
 

@@ -22,7 +22,7 @@ const changePassword = (target, username) => {
       }
     });
   } else {
-    message('Passwords don\'t match', 10000000);
+    message('Passwords don\'t match', 5000);
   }
 };
 
@@ -46,9 +46,9 @@ export default () => {
     };
 
     $.post('/src/php/api/update_security_question.php', data, (Response) => {
-      const anwer = JSON.parse(Response);
-      message(anwer.message);
-      if (anwer.success) {
+      const answer = JSON.parse(Response);
+      message(answer.message);
+      if (answer.success) {
         setTimeout(() => {
           document.location.href = '/';
         }, 1000);

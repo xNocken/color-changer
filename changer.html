@@ -7,8 +7,8 @@
     <input class="rs-range" type="range" id="b" min="0" max="255">b<br>
 
     <div class="input-group">
-      <input type="text" placeholder="Name" id="text">
-      <input type="submit" id="button">
+      <input class="left-part" type="text" placeholder="Name" id="text">
+      <input class="right-part" type="submit" id="button">
     </div>
   </div>
 </div>
@@ -19,7 +19,7 @@
 
   <script type="text/x-handlebars-template" id="colortemplate">
     <div class="items" data-id-div="{{ id }}">
-      <div class="theme-select name" id="{{ id }}" data-id="{{ id }}" title="{{ name }}">{{ name }}</div>
+      <div class="theme-select" id="{{ id }}" data-id="{{ id }}" title="{{ name }}">{{ name }}</div>
       <div class="theme-select" data-delete-id="{{ id }}">Delete </div>
       <div class="theme-select" data-edit-id="{{ id }}">Edit</div>
     </div>

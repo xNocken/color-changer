@@ -32,40 +32,59 @@ body {
   }
 }
 
-
 .input-group {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+}
 
-  input {
-
+.left-part {
+  padding: 8px 16px;
+  border: 0;
+  outline: 0;
+  border-radius: 1.25rem;
+  border: {
+    top-right-radius: 0;
+    bottom-right-radius: 0;
   }
 
-  input[type="text"] {
-    padding: 8px 16px;
-    border: 0;
-    outline: 0;
-    border-radius: 1.25rem;
-    border: {
-      top-right-radius: 0;
-      bottom-right-radius: 0;
-    }
+  &.bottom {
+    border-top-left-radius:0;
+    border: gray solid 1px;
+    border-top: 0;
+    margin-right: 78px;
   }
 
-  input[type="submit"] {
-    padding: 8px 16px;
-    border: 0;
-    outline: 0;
-    border-radius: 1.25rem;
-    border: {
-      top-left-radius: 0;
-      bottom-left-radius: 0;
-    }
-
-    cursor: pointer;
+  &.top {
+    margin-right: 78px;
+    border: gray solid 1px;
+    border-bottom-left-radius:0;
   }
+}
+
+.right-part {
+  padding: 8px 16px;
+  border: 0;
+  outline: 0;
+  border-radius: 1.25rem;
+  cursor: pointer;
+  border: {
+    top-left-radius: 0;
+    bottom-left-radius: 0;
+  }
+
+  &.long {
+    position: absolute;
+    height: 65px;
+    margin-left: -78px;
+    border: gray solid 1px;
+    border-left: 0;
+  }
+}
+
+.login-form {
+  width: 287px;
 }
 
 .changer, .themes {
@@ -79,3 +98,4 @@ body {
   outline: black 1px solid;
   margin-left: 20px;
 }
+
