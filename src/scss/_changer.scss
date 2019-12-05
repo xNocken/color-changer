@@ -5,6 +5,39 @@ body {
   text-align: center;
 }
 
+h2 {
+  text-align: start;
+}
+
+p, div {
+  font-family: "Open Sans";
+}
+
+.color-wrapper {
+  display: inline-block;
+  margin-right: 15px;
+  top: 0;
+
+  #color {
+  display: inline-block;
+  border: 1px black solid;
+    height: 308px;
+    width: 210px;
+  }
+}
+
+.changer-wrapper {
+  margin-left: 50px;
+  display: inline-block;
+}
+
+.name-field {
+  width: 300px;
+  padding: 8px 16px;
+  border: black solid 1px;
+  outline: 0;
+}
+
 .theme-select {
   cursor: pointer;
   display: inline-block;
@@ -29,11 +62,12 @@ body {
   }
 
   &:hover {
-    color: white;
+    color: rgba(0, 0, 0, 0.7);
   }
 }
 
 .input-group {
+  margin-top: 30px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -42,7 +76,7 @@ body {
 
 .left-part {
   padding: 8px 16px;
-  border: 0;
+  border: gray solid 1px;
   outline: 0;
   border-radius: 1.25rem;
   border: {
@@ -52,14 +86,12 @@ body {
 
   &.bottom {
     border-top-left-radius:0;
-    border: gray solid 1px;
     border-top: 0;
     margin-right: 78px;
   }
 
   &.top {
     margin-right: 78px;
-    border: gray solid 1px;
     border-bottom-left-radius:0;
   }
 }
@@ -68,8 +100,9 @@ body {
   padding: 8px 16px;
   outline: 0;
   cursor: pointer;
-  border: 0;
+  border: gray solid 1px;
   border: {
+    left: 0;
     radius: 1.25rem;
     top-left-radius: 0;
     bottom-left-radius: 0;
@@ -79,8 +112,6 @@ body {
     position: absolute;
     height: 65px;
     margin-left: -78px;
-    border: gray solid 1px;
-    border-left: 0;
   }
 }
 
@@ -92,11 +123,25 @@ body {
   display: inline-block;
 }
 
+.changer {
+  width: 250px;
+}
+
 #themes {
-  max-height: 308px;
+  height: 308px;
   overflow: scroll;
   overflow-x: hidden;
   outline: black 1px solid;
-  margin-left: 20px;
+  margin-bottom: 58px;
 }
 
+.save-theme {
+  margin-left: auto;
+}
+
+.button-wrapper {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
