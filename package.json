@@ -24,7 +24,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "fast-css-loader": "^1.0.2",
     "fast-sass-loader": "^1.5.0",
-    "file-loader": "^4.2.0",
+    "file-loader": "^5.0.2",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",

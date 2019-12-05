@@ -10,13 +10,14 @@ body {
   display: inline-block;
   margin-left: 5px;
   margin-right: 5px;
+  vertical-align: middle;
 
   &[data-delete-id] {
-    color: rgb(247, 99, 99);
+    width: 20px;
   }
 
   &[data-edit-id] {
-    color: rgb(24, 207, 55);
+    width: 20px;
     margin-right: 20px;
   }
 
@@ -65,11 +66,11 @@ body {
 
 .right-part {
   padding: 8px 16px;
-  border: 0;
   outline: 0;
-  border-radius: 1.25rem;
   cursor: pointer;
+  border: 0;
   border: {
+    radius: 1.25rem;
     top-left-radius: 0;
     bottom-left-radius: 0;
   }

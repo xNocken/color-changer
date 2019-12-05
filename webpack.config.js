@@ -29,6 +29,14 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.(svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [

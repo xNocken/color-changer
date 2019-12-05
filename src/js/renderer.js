@@ -3,6 +3,12 @@ import handlebars from 'handlebars';
 
 const threshhold = 25;
 
+export const getColor = () => ({
+  r: $('#r').val(),
+  g: $('#g').val(),
+  b: $('#b').val(),
+});
+
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
 
@@ -12,7 +18,6 @@ export const changeColor = (rgb) => {
     if ((inverseColor > 127 + threshhold) || (inverseColor < 127 - threshhold)) {
       return inverseColor;
     }
-
     return 0;
   });
 

@@ -2,7 +2,12 @@ import $ from 'jquery';
 
 import routes from './routes';
 import message from './message';
-import { setTheme, createElement } from './renderer';
+import {
+  setTheme,
+  createElement,
+  changeColor,
+  getColor,
+} from './renderer';
 
 const getThemes = () => {
   $.post(routes.get).done((response) => {
@@ -15,6 +20,8 @@ const getThemes = () => {
     }
 
     data.forEach(theme => createElement(theme));
+
+    changeColor(getColor());
   });
 };
 
