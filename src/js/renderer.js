@@ -9,6 +9,11 @@ export const getColor = () => ({
   b: $('#b').val(),
 });
 
+const convertToHex = (number) => {
+  const parsedNumber = parseInt(number, 10).toString(16);
+  return parsedNumber.length === 1 ? parsedNumber + 0 : parsedNumber;
+};
+
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
 
@@ -21,9 +26,11 @@ export const changeColor = (rgb) => {
     return 0;
   });
 
-  $('.theme-select').css({
+  $('p, div').css({
     color: `rgb(${nRGB[0]}, ${nRGB[1]}, ${nRGB[2]})`,
   });
+
+  $('#color-hex').text(`#${convertToHex(r)}${convertToHex(g)}${convertToHex(b)}`.toUpperCase());
 
   $('body').css({
     backgroundColor: `rgb(${r}, ${g}, ${b})`,
