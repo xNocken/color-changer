@@ -5,17 +5,14 @@ import message from './message';
 export default () => {
   $('#login-form').on('submit', (event) => {
     const { target } = event;
-    const action = target[2].checked ? 'register' : 'login';
+    const action = target[3].checked ? 'register' : 'login';
 
     event.preventDefault();
 
     $.ajax({
       url: `/src/php/${action}.php`,
       method: 'POST',
-      data: {
-        user: target[0].value,
-        pw: target[1].value,
-      },
+      data: $(target).serialize(),
     }).done((response) => {
       const data = JSON.parse(response);
 

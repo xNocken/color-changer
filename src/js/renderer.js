@@ -1,8 +1,29 @@
 import $ from 'jquery';
 import handlebars from 'handlebars';
 
+const threshhold = 25;
+
+export const getColor = () => ({
+  r: $('#r').val(),
+  g: $('#g').val(),
+  b: $('#b').val(),
+});
+
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
+
+  const nRGB = Object.values(rgb).map((item) => {
+    const inverseColor = 255 - parseInt(item, 10);
+
+    if ((inverseColor > 127 + threshhold) || (inverseColor < 127 - threshhold)) {
+      return inverseColor;
+    }
+    return 0;
+  });
+
+  $('.theme-select').css({
+    color: `rgb(${nRGB[0]}, ${nRGB[1]}, ${nRGB[2]})`,
+  });
 
   $('body').css({
     backgroundColor: `rgb(${r}, ${g}, ${b})`,

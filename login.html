@@ -1,11 +1,14 @@
 <h1>Login</h1>
 <form id="login-form">
-  <input name="user" type="text" placeholder="Username"><br>
-  <input name="pw" type="password" placeholder="Password"><br>
+  <div class="login-form">
+    <input class="left-part top" tabindex="1" name="user" type="text" placeholder="Username">
+    <input class="right-part long" tabindex="0" type="submit"><br>
+    <input class="left-part bottom" name="pw" tabindex="2" type="password" placeholder="Password"><br>
+  </div>
+
   <label for="register-checkbox">
     <input type="checkbox" id="register-checkbox">
     Register?
   </label>
-  <input type="submit"><br>
   <a href="/reset.php" class="button">Forgot Password?</a>
 </form>
