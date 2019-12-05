@@ -2,7 +2,7 @@
 require('../db.php');
 
 $id = $_REQUEST['id'];
-$sql = 'DELETE FROM themes WHERE ID = ' . $id . ' AND USER = \'' . $_SESSION['user'] . '\'';
+$sql = 'DELETE FROM themes WHERE ID = \'' . $id . '\' AND USER = \'' . $_SESSION['user'] . '\'';
 $result = $conn->query($sql);
 $effectedRows = mysqli_affected_rows($conn);
 
