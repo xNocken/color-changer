@@ -12,24 +12,40 @@ const convertToHex = (number) => {
   return parsedNumber.length === 1 ? 0 + parsedNumber : parsedNumber;
 };
 
+const convertToDecimal = hex => parseInt(hex.toString(), 16) || 0;
+
 export const changeColor = (rgb) => {
   const { r, g, b } = rgb;
 
-  $('#color-hex').text(`#${convertToHex(r)}${convertToHex(g)}${convertToHex(b)}`.toUpperCase());
+  $('#color-hex').val(`#${convertToHex(r)}${convertToHex(g)}${convertToHex(b)}`.toUpperCase());
 
   $('#color').css({
     backgroundColor: `rgb(${r}, ${g}, ${b})`,
   });
+
+  $('#r').val(r);
+  $('#g').val(g);
+  $('#b').val(b);
+};
+
+export const colorInput = (target) => {
+  const hex = $(target).val();
+  if (hex.length === 7) {
+    changeColor({
+      r: convertToDecimal(hex.charAt(1) + hex.charAt(2)),
+      g: convertToDecimal(hex.charAt(3) + hex.charAt(4)),
+      b: convertToDecimal(hex.charAt(5) + hex.charAt(6)),
+    });
+  } else if (hex.length === 6 && hex.charAt(0) !== '#') {
+    $(target).val(`#${hex}`);
+    colorInput(target);
+  }
 };
 
 export const setTheme = (id) => {
   const theme = $(`[data-id="${id}"]`).data('theme');
 
   changeColor(theme);
-
-  $('#r').val(theme.r);
-  $('#g').val(theme.g);
-  $('#b').val(theme.b);
 };
 
 export const createElement = (theme) => {

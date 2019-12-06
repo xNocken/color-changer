@@ -18,7 +18,7 @@ if (isset($_SESSION['user'])) {
       <?php if (!$user) {
         include('login.html');
       } else {
-        include('changer.html');
+        include('changer.php');
       } ?>
     </div>
     <script src="./dist/app.js"></script>

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import request from './request';
-import { changeColor, getColor } from './renderer';
+import { changeColor, getColor, colorInput } from './renderer';
 
 export default () => {
   const $text = $('#text');
@@ -11,6 +11,8 @@ export default () => {
   $('#r, #g, #b').on('input', () => changeColor(getColor()));
 
   $('#button').on('click', () => request.save(getColor(), $text.val()));
+
+  $('#color-hex').on('input', (event) => { colorInput(event.target); });
 
   $('body').on('setListener', (item, items) => {
     $(items.newDeleteElem).on('click', event => request.delete($(event.currentTarget).data('delete-id')));
