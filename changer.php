@@ -8,8 +8,8 @@
   <script type="text/x-handlebars-template" id="colortemplate">
     <div class="items" data-id-div="{{ id }}">
       <div class="theme-select" id="{{ id }}" data-id="{{ id }}" title="{{ name }}">{{ name }}</div>
-      <div class="theme-select" data-delete-id="{{ id }}"><?php include('./src/svg/times-solid.svg');?></div>
       <div class="theme-select" data-edit-id="{{ id }}"><?php include('./src/svg/pencil-alt-solid.svg');?></div>
+      <div class="theme-select" data-delete-id="{{ id }}"><?php include('./src/svg/times-solid.svg');?></div>
     </div>
   </script>
 </div>
@@ -21,7 +21,8 @@
   </div>
   <div class="changer">
     <div>
-      <input type="text" id="color-hex" maxlength="7"></input>
+      <input type="text" id="color-hex" maxlength="7"><br>
+      <input type="submit" id="random-number" value="Random Hex" class="button">
       <input class="rs-range" type="range" id="r" min="0" max="255">r<br>
       <input class="rs-range" type="range" id="g" min="0" max="255">g<br>
       <input class="rs-range" type="range" id="b" min="0" max="255">b<br>

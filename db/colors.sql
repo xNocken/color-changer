@@ -33,7 +33,7 @@ CREATE TABLE `themes` (
   `r` varchar(45) DEFAULT NULL,
   `g` varchar(45) DEFAULT NULL,
   `b` varchar(45) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
   `user` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

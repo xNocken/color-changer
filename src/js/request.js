@@ -93,7 +93,7 @@ const handleSave = (rgb, name) => {
 
   if (editElem.length !== 0) {
     saveEditedTheme(rgb, name, editElem.data('theme').id);
-  } else if (name) {
+  } else if (name && name.length < 200) {
     saveTheme({
       r,
       g,
@@ -101,7 +101,7 @@ const handleSave = (rgb, name) => {
       name,
     });
   } else {
-    message('Name darf nicht leer sein');
+    message('Name darf nicht leer oder größer als 200 zeichen sein');
   }
 };
 

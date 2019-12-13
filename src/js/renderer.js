@@ -42,6 +42,14 @@ export const colorInput = (target) => {
   }
 };
 
+export const randomHex = () => {
+  changeColor({
+    r: Math.floor(Math.random() * 255),
+    g: Math.floor(Math.random() * 255),
+    b: Math.floor(Math.random() * 255),
+  });
+};
+
 export const setTheme = (id) => {
   const theme = $(`[data-id="${id}"]`).data('theme');
 

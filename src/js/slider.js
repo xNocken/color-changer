@@ -1,7 +1,12 @@
 import $ from 'jquery';
 
 import request from './request';
-import { changeColor, getColor, colorInput } from './renderer';
+import {
+  changeColor,
+  getColor,
+  colorInput,
+  randomHex,
+} from './renderer';
 
 export default () => {
   const $text = $('#text');
@@ -18,4 +23,6 @@ export default () => {
     $(items.newDeleteElem).on('click', event => request.delete($(event.currentTarget).data('delete-id')));
     $(items.newEditElem).on('click', event => request.update($(event.currentTarget).data('edit-id')));
   });
+
+  $('#random-number').on('click', () => randomHex());
 };
