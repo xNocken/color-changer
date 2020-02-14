@@ -58,6 +58,9 @@ export const setTheme = (id) => {
 
 export const createElement = (theme) => {
   const templateSource = $('#colortemplate').html();
+  if (!templateSource) {
+    return;
+  }
   const renderTemplate = handlebars.compile(templateSource);
 
   const {
